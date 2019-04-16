@@ -1,11 +1,12 @@
 debug = true
+debugTxt = nil
 
 require("math")
 require("resolution")
 
 function love.load(arg)
     background = love.graphics.newImage("testbild_16_9.png")
-    resolution:init(love.graphics.getWidth(),love.graphics.getHeight())
+    resolution:init()
 end
 
 function love.resize(w, h)
@@ -21,8 +22,10 @@ function love.update(dt)
         love.window.close()
     elseif love.keyboard.isDown("escape") then
         love.window.setFullscreen(false)
+        resolution:set()
     end
 
+    debugTxt = resolution.width.." X "..resolution.height
 end
 
 function love.draw()
@@ -35,6 +38,8 @@ function love.draw()
     -- love.graphics.draw(background)
     love.graphics.pop()
 
-    love.graphics.setColor(255,255,255)
-    love.graphics.print(resolution.width..":"..resolution.height,5,5)
+    if debugTxt then
+        love.graphics.setColor(255,255,255)
+        love.graphics.print(debugTxt,5,5)
+    end
 end
